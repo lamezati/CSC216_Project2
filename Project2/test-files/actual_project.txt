@@ -1,0 +1,7 @@
+! CSC 216 Task Log
+# Design
+# Implementation
+* Design Task,30,Design
+Design Details
+* Implementation Task,90,Implementation
+Implementation Details

@@ -1,0 +1,4 @@
+Category,Count,Min,Max,Average
+Category1,1,30,30,30.0
+Category2,1,45,45,45.0
+All Tasks,2,30,45,37.5

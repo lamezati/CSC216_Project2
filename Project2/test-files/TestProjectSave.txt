@@ -1,0 +1,4 @@
+! CSC 216 Task Log
+# Implementation
+* Writing Javadoc,40,Implementation
+BrainStorming all the ideas of how to proceed with implementation

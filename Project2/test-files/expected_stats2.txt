@@ -1,0 +1,4 @@
+Category,Count,Min,Max,Average
+Design,1,30,30,30.0
+Implementation,1,90,90,90.0
+All Tasks,2,30,90,60.0
