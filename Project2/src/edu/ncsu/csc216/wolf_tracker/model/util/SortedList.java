@@ -20,7 +20,6 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
     public SortedList() {
     	front = null;
         size = 0;
-    	// Have to implement later
     }
 
     /** 
@@ -31,7 +30,26 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
      * @throws IllegalArgumentException if the element is a duplicate
      */
     public void add(E element) {
-    	// Have to implement later
+    	if(element == null) {
+			throw new NullPointerException("Cannot add null element.");
+		}
+    	
+    	if (contains(element)) {
+            throw new IllegalArgumentException("Cannot add duplicate element.");
+        }
+		
+    	if (front == null || element.compareTo(front.data) < 0) {
+            front = new ListNode(element, front);
+        } else {
+        	ListNode current = front;
+        	
+        	while (current.next != null && current.next.data.compareTo(element) < 0) {
+                current = current.next;
+            }
+        	
+        	current.next = new ListNode(element, current.next);
+        }
+    	size++;
     }
 
     /** 
@@ -42,8 +60,24 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     public E remove(int idx) {
-    	// Have to implement later
-        return null;
+    	if (idx < 0 || idx >= size) {
+            throw new IndexOutOfBoundsException("Invalid index.");
+        }
+    	
+    	E removed;
+        if (idx == 0) {
+            removed = front.data;
+            front = front.next;
+        } else {
+            ListNode current = front;
+            for (int i = 0; i < idx - 1; i++) {
+                current = current.next;
+            }
+            removed = current.next.data;
+            current.next = current.next.next;
+        }
+        size--;
+        return removed;
     }
 
     /**
@@ -53,7 +87,15 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
      * @return true if the element is in the list, false otherwise
      */
     public boolean contains(E element) {
-    	// Have to implement later
+    	ListNode current = front;
+    	
+        while (current != null) {
+        	
+            if (current.data.compareTo(element) == 0) {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -65,8 +107,16 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     public E get(int idx) {
-    	// Have to implement later
-        return null;
+    	if (idx < 0 || idx >= size) {
+            throw new IndexOutOfBoundsException("Invalid index.");
+        }
+    	
+        ListNode current = front;
+        for (int i = 0; i < idx; i++) {
+            current = current.next;
+            
+        }
+        return current.data;
     }
 
     /** 
@@ -75,8 +125,7 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
      * @return the number of elements in the list
      */
     public int size() {
-    	// Have to implement later
-        return 0;
+        return size;
     }
 
     /**
@@ -95,7 +144,8 @@ public class SortedList<E extends Comparable<E>> implements ISortedList<E> {
          * @param next the next node in the list
          */
         public ListNode(E data, ListNode next) {
-        	// Have to implement later
+        	this.data = data;
+        	this.next = next;
         }
     }
 }
