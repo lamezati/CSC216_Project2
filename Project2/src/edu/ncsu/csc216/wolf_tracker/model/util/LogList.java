@@ -20,7 +20,8 @@ public class LogList<E> implements ILogList<E> {
 	/** Constructs a new empty LogList */
 	@SuppressWarnings("unchecked")
 	public LogList() {
-		// Have to implement later
+		this.list = (E[]) new Object[INIT_CAP];
+	    this.size = 0;
 	}
 	
 	/** 
@@ -30,7 +31,12 @@ public class LogList<E> implements ILogList<E> {
      * @throws NullPointerException if the element is null
 	 */
 	public void addLog(E element) {
-		// Have to implement later
+		if(element == null) {
+			throw new NullPointerException("Cannot add null element.");
+		}
+		ensureCapacity(size + 1);
+		list[size] = element;
+	    size++;
 	}
 
 	/** 
@@ -42,7 +48,15 @@ public class LogList<E> implements ILogList<E> {
      * @throws NullPointerException if the element is null
 	 */
 	public void setLog(int idx, E element) {
-		// Have to implement later
+		if(element == null) {
+			throw new NullPointerException("Cannot add null element.");
+		}
+		
+		if(idx < 0 || idx >= size) {
+			throw new IndexOutOfBoundsException("Invalid index.");
+		}
+		
+		list[idx] = element;
 	}
 
 	/**
@@ -53,9 +67,16 @@ public class LogList<E> implements ILogList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */ 
 	public E removeLog(int idx) {
-		// Have to implement later
-		return null;
-		
+		if(idx < 0 || idx >= size) {
+			throw new IndexOutOfBoundsException("Invalid index.");
+		}
+		E removed = list[idx];
+		for(int i = idx; i < size - 1; i++) {
+			list[i] = list[i + 1];
+		}
+		list[size - 1] = null;
+		size--;
+		return removed;
 	}
 
 	/** 
@@ -66,8 +87,10 @@ public class LogList<E> implements ILogList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
 	public E getLog(int idx) {
-		// Have to implement later
-		return null;
+		if(idx < 0 || idx >= size) {
+			throw new IndexOutOfBoundsException("Invalid index.");
+		}
+		return list[idx];
 	}
 
 	/** 
@@ -76,8 +99,7 @@ public class LogList<E> implements ILogList<E> {
      * @return the number of elements in the list
 	 */
 	public int size() {
-		// Have to implement later
-		return 0;
+		return size;
 	}
 	
 	/**
@@ -87,6 +109,11 @@ public class LogList<E> implements ILogList<E> {
      */
 	@SuppressWarnings("unchecked")
 	private void ensureCapacity(int size) {
-		// Have to implement later
+	    if (size > list.length) {
+	        int newSize = list.length * 2;                   // Double the size of the array
+	        E[] temp = (E[]) new Object[newSize];            // Create a new empty array of type E 
+	        System.arraycopy(list, 0, temp, 0, this.size);   // Copy of all element of that old array into the temp array 
+	        list = temp;
+	    }
 	}
 }

@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests the functionality of the SortedList class.
+ * 
+ * @author Leonel Mezatio
+ */
 public class SortedListTest {
 
 	/** Tests adding elements to the list. */
@@ -105,6 +110,6 @@ public class SortedListTest {
     	// Test index out of bounds
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(3));
         
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(-2));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
 	}
 }
