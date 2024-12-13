@@ -2,6 +2,7 @@ package edu.ncsu.csc216.wolf_tracker.model.log;
 
 import edu.ncsu.csc216.wolf_tracker.model.task.Task;
 import edu.ncsu.csc216.wolf_tracker.model.util.ILogList;
+import edu.ncsu.csc216.wolf_tracker.model.util.LogList;
 
 /** 
  * An abstract base class for managing a log of tasks, providing common functionality 
@@ -21,7 +22,8 @@ public abstract class AbstractTaskLog {
      * @throws IllegalArgumentException if the name is null or empty
      */
 	public AbstractTaskLog(String taskListName) {
-		// Have to implement later
+		setTaskLogName(taskListName);
+		this.tasks = new LogList<>();
 	}
 	
 	/**
@@ -30,8 +32,7 @@ public abstract class AbstractTaskLog {
      * @return the name of the task log
      */
 	public String getName() {
-		// Have to implement later
-		return null;
+		return taskLogName;
 	}
 	
 	/**
@@ -41,7 +42,10 @@ public abstract class AbstractTaskLog {
      * @throws IllegalArgumentException if the name is invalid
      */
 	public void setTaskLogName(String taskLogName){
-		// Have to implement later
+		if(taskLogName == null || taskLogName.isEmpty()) {
+			throw new IllegalArgumentException("Invalid name.");
+		}
+		this.taskLogName = taskLogName;
 	}
 	
 	/**
@@ -50,8 +54,7 @@ public abstract class AbstractTaskLog {
      * @return the list of tasks
      */
 	public ILogList<Task> getTasks(){
-		// Have to implement later
-		return null;
+		return tasks;
 	}
 	
 	/**
@@ -61,7 +64,7 @@ public abstract class AbstractTaskLog {
      * @throws NullPointerException if the task is null
      */
 	public void addTask(Task t) {
-		// Have to implement later
+		tasks.addLog(t);
 	}
 	
 	/**
@@ -73,7 +76,7 @@ public abstract class AbstractTaskLog {
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
 	public void setTask(int idx, Task t) {
-		// Have to implement later
+		tasks.setLog(idx, t);
 	}
 	
 	/**
@@ -84,8 +87,7 @@ public abstract class AbstractTaskLog {
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
 	public Task removeTask(int idx) {
-		// Have to implement later
-		return null;
+		return tasks.removeLog(idx);
 	}
 	
 	/**
@@ -96,8 +98,7 @@ public abstract class AbstractTaskLog {
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
 	public Task getTask(int idx) {
-		// Have to implement later
-		return null;
+		return tasks.getLog(idx);
 	}
 	
 	/**
@@ -106,8 +107,7 @@ public abstract class AbstractTaskLog {
      * @return the number of tasks in the log
      */
 	public int getTaskCount() {
-		// Have to implement later
-		return 0;
+		return tasks.size();
 	}
 	
 	/**
@@ -116,8 +116,17 @@ public abstract class AbstractTaskLog {
      * @return the minimum duration of tasks
      */
 	public int getMinDuration() {
-		// Have to implement later
-		return 0;
+		if(tasks.size() == 0) {
+			return 0;
+		}
+		int min = tasks.getLog(0).getTaskDuration();
+		for(int i = 0; i < tasks.size(); i++) {
+			int duration = tasks.getLog(i).getTaskDuration();
+            if (duration < min) {
+                min = duration;
+            }
+		}
+		return min;
 	}
 	
 	/**
@@ -126,8 +135,17 @@ public abstract class AbstractTaskLog {
      * @return the maximum duration of tasks
      */
 	public int getMaxDuration() {
-		// Have to implement later
-		return 0;
+		if(tasks.size() == 0) {
+			return 0;
+		}
+		int max = 0;
+		for(int i = 0; i < tasks.size(); i++) {
+			int duration = tasks.getLog(i).getTaskDuration();
+            if (duration > max) {
+                max = duration;
+            }
+		}
+		return max;
 	}
 	
 	/**
@@ -136,8 +154,15 @@ public abstract class AbstractTaskLog {
      * @return the average duration of tasks, rounded to the nearest tenth
      */
 	public double getAvgDuration() {
-		// Have to implement later
-		return 0;
+		if(tasks.size() == 0) {
+			return 0.0;
+		}
+		double total = 0;
+		for(int i = 0; i < tasks.size(); i++) {
+			total += tasks.getLog(i).getTaskDuration();
+            
+		}
+		return (int)((total / tasks.size()) * 10.0 + 0.5) / 10.0;
 	}
 	
 	/**
@@ -146,8 +171,14 @@ public abstract class AbstractTaskLog {
      * @return a 2D string array of tasks
      */
 	public String[][] getTasksAsArray(){
-		// Have to implement later
-		return null;
+		String[][] taskArray = new String[tasks.size()][3];
+		for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.getLog(i);
+            taskArray[i][0] = task.getTaskTitle();
+            taskArray[i][1] = Integer.toString(task.getTaskDuration());
+            taskArray[i][2] = task.getCategoryName();
+        }
+		return taskArray;
 	}
 	
 	/**
@@ -158,6 +189,26 @@ public abstract class AbstractTaskLog {
      */
 	@Override
 	public String toString() {
-		return null;
+		String min = "";
+		String max = "";
+		String avg = "";
+		
+		if(getMinDuration() == 0) { 
+			min = "";
+		} else if(getMinDuration() != 0) {
+			min = "" + getMinDuration();
+		}
+		if(getMaxDuration() == 0) { 
+			max = "";
+		} else if(getMaxDuration() != 0) { 
+			max = "" + getMaxDuration();
+		}
+		if(getAvgDuration() == 0) { 
+			avg = "";
+		} else if(getAvgDuration() != 0) { 
+			avg = "" + getAvgDuration();
+		}
+		
+		return getName() + "," + getTaskCount() + "," + min + "," + max + "," + avg;
 	}
 }

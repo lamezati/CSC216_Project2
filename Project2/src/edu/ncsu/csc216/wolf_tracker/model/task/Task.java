@@ -26,9 +26,15 @@ public class Task {
 	 * @param taskTitle the title of the task
 	 * @param taskDuration the duration of the task
 	 * @param taskDetails additional details of the task
+	 * @throws IllegalArgumentException if taskTitle is null or empty
+	 * @throws IllegalArgumentException if taskDuration is less than 1
+	 * @throws IllegalArgumentException if taskDetails is null or empty
 	 */
 	public Task(String taskTitle, int taskDuration, String taskDetails) {
-		// Have to implement later
+		setTaskTitle(taskTitle);
+        setTaskDuration(taskDuration);
+        setTaskDetails(taskDetails);
+        this.category = null;
 	}
 	
 	// Getters and Setters
@@ -38,8 +44,7 @@ public class Task {
 	 * @return the title of the task
 	 */
 	public String getTaskTitle() {
-		// Have to implement later
-		return null;
+		return taskTitle;
 	}
 	
 	/**
@@ -49,7 +54,10 @@ public class Task {
      * @throws IllegalArgumentException if taskTitle is null or empty
      */
 	public void setTaskTitle(String taskTitle) {
-		// Have to implement later
+		if(taskTitle == null || taskTitle.isEmpty()) {
+			throw new IllegalArgumentException("Incomplete task information.");
+		}
+		this.taskTitle = taskTitle;
 	}
 	
 	/**
@@ -58,8 +66,7 @@ public class Task {
      * @return the duration of the task
      */
 	public int getTaskDuration() {
-		// Have to implement later
-		return 0;
+		return taskDuration;
 	}
 	
 	/**
@@ -69,7 +76,10 @@ public class Task {
      * @throws IllegalArgumentException if taskDuration is less than 1
      */
 	public void setTaskDuration(int taskDuration) {
-		// Have to implement later
+		if(taskDuration < 1) {
+			throw new IllegalArgumentException("Incomplete task information.");
+		}
+		this.taskDuration = taskDuration;
 	}
 	
 	/**
@@ -78,8 +88,7 @@ public class Task {
      * @return the details of the task
      */
 	public String getTaskDetails() {
-		// Have to implement later
-		return null;
+		return taskDetails;
 	}
 	
 	/**
@@ -89,7 +98,10 @@ public class Task {
      * @throws IllegalArgumentException if taskDetails is null or empty
      */
 	public void setTaskDetails(String taskDetails) {
-		// Have to implement later
+		if(taskDetails == null || taskDetails.isEmpty()) {
+			throw new IllegalArgumentException("Incomplete task information.");
+		}
+		this.taskDetails = taskDetails;
 	}
 	
 	/**
@@ -99,7 +111,10 @@ public class Task {
      * @throws IllegalArgumentException if category is null or the task already has an assigned category
      */
 	public void addCategory(CategoryLog category) {
-		// Have to implement later
+		if(category == null || this.category != null) {
+			throw new IllegalArgumentException("Incomplete task information.");
+		}
+		this.category = category;
 	}
 	
 	/**
@@ -109,8 +124,11 @@ public class Task {
      * @return the name of the category or an empty string if the category is null
      */
 	public String getCategoryName() {
-		// Have to implement later
-		return null;
+		if(category == null) {
+			return "";
+		} else {
+			return category.getName();
+		}
 	}
 	
 	/**
@@ -120,7 +138,6 @@ public class Task {
      */
 	@Override
 	public String toString() {
-		// Have to implement later
-		return null;
+		return "* " + taskTitle + "," + taskDuration + "," + getCategoryName() + "\n" + taskDetails;
 	}
 }

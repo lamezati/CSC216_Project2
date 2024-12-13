@@ -30,8 +30,10 @@ public class CategoryLog extends AbstractTaskLog implements Comparable<CategoryL
 	 */
 	@Override
 	public int compareTo(CategoryLog o) {
-		// Have to implement later
-		return 0;
+		if(o == null) {
+			throw new NullPointerException();
+		}
+		return this.getName().compareToIgnoreCase(o.getName());
 	}
 	
 	/**
@@ -45,7 +47,11 @@ public class CategoryLog extends AbstractTaskLog implements Comparable<CategoryL
      */
 	@Override
 	public void setTask(int idx, Task t) {
-		// Have to implement later
+		if(t == null) {
+			throw new NullPointerException();
+		}
+		super.setTask(idx, t);
+		t.addCategory(this);
 	}
 	
 	/**
@@ -56,6 +62,10 @@ public class CategoryLog extends AbstractTaskLog implements Comparable<CategoryL
      * @throws NullPointerException if the task is null
      */
 	public void addTask(Task t) {
-		// Have to implement later
+		if(t == null) {
+			throw new NullPointerException();
+		}
+		super.addTask(t);
+		t.addCategory(this);
 	}
 }
